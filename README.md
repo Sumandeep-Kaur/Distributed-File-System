@@ -1,14 +1,11 @@
 # Distributed-File-System
-This project implements a simple Distributed File System using C and a multi-threaded client-server architecture. The system supports basic file operations and intelligently distributes files across multiple sub-servers based on their type, while remaining transparent to the user.
+This project implements a **distributed file system** using **socket programming in C** in client-server architecture. The system supports basic file operations and intelligently distributes files across multiple sub-servers based on their type, while remaining transparent to the user. It features:
 
-## Features
-- Client-Server Architecture: A client connects to a main server to request file operations.
-- Multi-Threaded Server: The main server can handle multiple clients concurrently.
-- Distributed File Handling: Based on file type, requests are forwarded to specialized sub-servers:
-  - PDF files: Handled by server_pdf.c
-  - Text files: Handled by server_txt.c
-  - Other file types: Handled by server_misc.c
-- Transparent Redirection: Users interact with a single interface (the client) and are unaware of the underlying distribution.
+- A **client** that interacts with a centralized **main server**.
+- The **main server** routes file operations based on file type to specific **sub-servers**:
+  - `server_pdf` for `.pdf` files
+  - `server_txt` for `.txt` files
+  - server_misc` for all other file types
 
 ## File Structure
 <pre>
@@ -26,7 +23,7 @@ This project implements a simple Distributed File System using C and a multi-thr
 Use gcc to compile each component. Run these commands in the terminal:
 <pre>
 gcc -o client client.c 
-gcc -o server_main server_main.c -lpthread
+gcc -o server_main server_main.c 
 gcc -o server_pdf server_pdf.c
 gcc -o server_txt server_txt.c
 gcc -o server_misc server_misc.c 
@@ -51,12 +48,10 @@ In another terminal window, start the client:
 The client accepts user input in the format:
 - UPLOAD filename.pdf
 - DOWNLOAD filename.txt
-- LIST
-- DELETE filename
 - EXIT
 
 #### 2. Main Server Handles Command
 The server_main receives this command, parses the file type, and forwards the request to the appropriate sub-server.
 
 #### 3. Sub-Server Processes Request
-The corresponding server (server_pdf, server_txt, or server_misc) responds to the request and sends a confirmation message back.
+The corresponding server (server_pdf, server_txt, or server_misc) responds to the request and sends response back.
